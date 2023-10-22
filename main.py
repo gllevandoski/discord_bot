@@ -4,34 +4,31 @@ from mcstatus import JavaServer
 from os import system, popen
 
 
-PINGS_WITHOUT_PLAYERS = 0
-
-
-def server_info():
+async def minecraft_server_info():
     try:
-        server = JavaServer.lookup("cs16redirect.servegame.com:25566")
-        server_status = server.status()
+        server = await JavaServer.async_lookup("cs16redirect.servegame.com:25566")
+        server_status = await server.async_status()
         players_list = []
 
         if server_status.players.sample:
             for player in server_status.players.sample:
                 players_list.append(player.name)
         else:
-            players_list = "Ninguém online no momento"
+            players_list = "Ninguém online no momento..."
 
-        output = f"```Servidor: {server_status.description}\n" \
-                 f"Endereço: {server.address[0]}:{server.address[1]}\n" \
-                 f"Latência: {int(server_status.latency)}ms\n" \
-                 f"Players online: {players_list}```\n"
+        output = f"```Servidor: {server_status.description} 👻\n" \
+                f"Endereço: {server.address[0]}:{server.address[1]}\n" \
+                f"Latência: {int(server_status.latency)}ms\n" \
+                f"Players online: {players_list}```\n"
 
     except TimeoutError:
-        output = "O servidor não está online no momento"
+        output = "O servidor não está online no momento. Inicie o servidor com o comando '.start'"
 
     except WindowsError as E:
-        output = "Erro do SO. Possivelmente o DUC está desligado.\n Erro: {}".format(E)
+        output = "O servidor não está funcionando.\n Erro: {}".format(E)
 
     except Exception as E:
-        output = "Aconteceu algo de errado. Tente novamente mais tarde.\n Erro: {}".format(E)
+        output = "Aconteceu algo de errado, contate o admin.\n Erro: {}".format(E)
 
     return output
 
@@ -48,13 +45,13 @@ if __name__ == "__main__":
 
     @tasks.loop(seconds=900)
     async def check_con():
-        a = system("ping -n 2 www.google.com.br")
+        a = system("ping -n 3 www.google.com.br")
         if a != 0:
             popen("shutdown /r /t 1")
 
     @bot.command()
     async def status(ctx):
-        await ctx.send(server_info())
+        await ctx.send(await minecraft_server_info())
 
     @bot.command()
     async def help(ctx):
@@ -92,7 +89,7 @@ if __name__ == "__main__":
             await ctx.send("Ops! O servidor já está online!")
         elif "nenhuma" in c:
             await ctx.send("Iniciando servidor")
-            popen('cd "C:/Users/pc/AppData/Roaming/.minecraft 1.8.9 server/" && javaw -jar server.jar -XX:+UseG1GC '
+            popen('cd "C:/Users/gnimag4/AppData/Roaming/.minecraft 1.8.9 server/" && javaw -jar server.jar -XX:+UseG1GC '
                   '-Xmx4G -Xms4G -Dsun.rmi.dgc.server.gcInterval=2147483646 -XX:+UnlockExperimentalVMOptions '
                   '-XX:G1NewSizePercent=20 -XX:G1ReservePercent=20 -XX:MaxGCPauseMillis=50 '
                   '-XX:G1HeapRegionSize=32M')
