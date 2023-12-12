@@ -1,4 +1,4 @@
-import os
+import subprocess
 
 
 class System:
@@ -18,14 +18,11 @@ class System:
                                       logging.StreamHandler()], level=logging.DEBUG)
         return logging.getLogger("discord")
 
-    def check_connection(self):
-        logger.debug("Testando conexão")
+    async def check_connection(self):
+        from threading import Thread
 
-        lan_ping = self.check_lan_connection()
-        wan_ping = self.check_wan_connection()
-
-        if lan_ping or wan_ping:
-            raise ConnectionError
+        Thread(target=self.check_lan_connection, daemon=True).start()
+        Thread(target=self.check_wan_connection, daemon=True).start()
 
     def check_lan_connection(self):
         if self.os == "Linux":
@@ -33,21 +30,29 @@ class System:
         if self.os == "Windows":
             ping = f"ping -n 3 {self.lan_ip}"
 
-        pong = os.system(ping)
-        logger.debug(pong)
-        return pong
+        try:
+            from subprocess import CalledProcessError
+
+            pong = subprocess.run(ping, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
+            pong.check_returncode()
+        except CalledProcessError:
+            logger.warning("Conexão à LAN perdida.")
 
     def check_wan_connection(self):
         if self.os == "Linux":
-            ping = f"ping -c {self.wan_ip}"
+            ping = f"ping -c 3 {self.wan_ip}"
         if self.os == "Windows":
             ping = f"ping -n 3 {self.wan_ip}"
 
-        pong = os.system(ping)
-        logger.debug(pong)
-        return pong
+        try:
+            from subprocess import CalledProcessError
+
+            pong = subprocess.run(ping, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
+            pong.check_returncode()
+        except CalledProcessError:
+            logger.warning("Conexão à WAN perdida.")
 
 
 admins_id = [292750276048191488]
-system = System("Windows")
+system = System("Windows", "192.168.0.190")
 logger = system.setup_logging()

@@ -1,4 +1,0 @@
-WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
-DEBUG:asyncio:Using proactor: IocpProactor
-INFO:discord.client:logging in using static token
-INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: bf248cfa1afd2be2ff18925dc8a33cac).

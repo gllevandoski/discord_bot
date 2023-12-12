@@ -1,4 +1,0 @@
-WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
-DEBUG:discord:Testando conexão
-DEBUG:discord:0
-DEBUG:discord:1
