@@ -1,3 +1,6 @@
+from system import logger
+
+
 class Server:
     def __init__(self, owner: dict, address: str, port: int):
         self._owner = owner
@@ -25,6 +28,9 @@ class Server:
     def restart():
         pass
 
+    def info():
+        pass
+
 
 class Minecraft(Server):
     def __init__(self, address: str, port: int):
@@ -41,16 +47,14 @@ class Minecraft(Server):
 
             self.server = server_info
 
-        except TimeoutError:
-            # "O servidor não está online no momento. Inicie o servidor com o comando '.start'"
-            raise
+        except TimeoutError as E:
+            logger.error("O servidor não está online no momento. Inicie o servidor com o comando '.start'.\n Erro: {}".format(E))
 
         except OSError as E:
-            # "O servidor não está funcionando.\n Erro: {}".format(E)
-            raise
+            logger.error("O servidor não está funcionando.\n Erro: {}".format(E))
 
         except Exception as E:
-            # "Aconteceu algo de errado, contate o admin.\n Erro: {}".format(E)
+            logger.error("Aconteceu algo de errado, contate o admin.\n Erro: {}".format(E))
             raise
 
 
@@ -68,4 +72,3 @@ class Minecraft(Server):
                f"Latência: {int(self.server.latency)}ms\n" \
                f"Players online: {players_online}" \
                f"```\n"
-

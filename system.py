@@ -1,6 +1,3 @@
-import subprocess
-
-
 class System:
     def __init__(self, os, lan_ip = "192.168.1.254", wan_ip = "www.google.com.br") -> None:
         self.os = os
@@ -31,11 +28,11 @@ class System:
             ping = f"ping -n 3 {self.lan_ip}"
 
         try:
-            from subprocess import CalledProcessError
-
+            import subprocess
             pong = subprocess.run(ping, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
             pong.check_returncode()
-        except CalledProcessError:
+
+        except subprocess.CalledProcessError:
             logger.warning("Conexão à LAN perdida.")
 
     def check_wan_connection(self):
@@ -45,11 +42,11 @@ class System:
             ping = f"ping -n 3 {self.wan_ip}"
 
         try:
-            from subprocess import CalledProcessError
-
+            import subprocess
             pong = subprocess.run(ping, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
             pong.check_returncode()
-        except CalledProcessError:
+
+        except subprocess.CalledProcessError.CalledProcessError:
             logger.warning("Conexão à WAN perdida.")
 
 
