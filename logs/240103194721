@@ -1,0 +1,14 @@
+WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
+DEBUG:discord.client:on_ready has successfully been registered as an event
+DEBUG:asyncio:Using selector: EpollSelector
+INFO:discord.client:logging in using static token
+INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: 09c3a3206fdff1217f9b6cbe4743d0d8).
+INFO:discord:Logado como Minecraft Bot
+WARNING:discord:Conexão à LAN perdida.
+WARNING:discord:Conexão à WAN perdida.
+WARNING:discord:Conexão à WAN perdida.
+WARNING:discord:Conexão à LAN perdida.
+WARNING:discord:Conexão à WAN perdida.
+WARNING:discord:Conexão à WAN perdida.
+WARNING:discord:Conexão à LAN perdida.
+WARNING:discord:Conexão à LAN perdida.

@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     intents = discord.Intents.default()
     intents.message_content = True
-    bot = commands.Bot(command_prefix=".", intents=intents, help_command=None)
+    bot = commands.Bot(command_prefix="mc!", intents=intents, help_command=None)
     minecraft_server = Minecraft("grupocycle.ddns.net", 25566)
 
     @bot.event
@@ -59,6 +59,6 @@ if __name__ == "__main__":
                 case "list":
                     pass
         except Exception:
-            await context.send("Utilização incorreta do comando. Para ler sobre o comando, digite '.help'")
+            await context.send("Utilização incorreta do comando. Para ler sobre o comando, digite 'mc!help'")
 
     bot.run("MTA3MzYwNDM5Mzg4ODM4NzExMg.Gzxs8Q.Y6HiFcDb4Wg2_lfel4X-uJk3DCpjuf_Ky8v7Es")

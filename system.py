@@ -1,6 +1,5 @@
 class System:
-    def __init__(self, os, lan_ip = "192.168.1.254", wan_ip = "www.google.com.br") -> None:
-        self.os = os
+    def __init__(self, lan_ip = "192.168.1.254", wan_ip = "www.google.com.br") -> None:
         self.lan_ip = lan_ip
         self.wan_ip = wan_ip
 
@@ -18,38 +17,19 @@ class System:
     async def check_connection(self):
         from threading import Thread
 
-        Thread(target=self.check_lan_connection, daemon=True).start()
-        Thread(target=self.check_wan_connection, daemon=True).start()
+        Thread(target=self.test_connection, args=(self.wan_ip,), daemon=True).start()
+        Thread(target=self.test_connection, args=(self.lan_ip,), daemon=True).start()
 
-    def check_lan_connection(self):
-        if self.os == "Linux":
-            ping = f"ping -c 3 {self.lan_ip}"
-        if self.os == "Windows":
-            ping = f"ping -n 3 {self.lan_ip}"
-
+    def test_connection(self, ping):
         try:
             import subprocess
-            pong = subprocess.run(ping, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
+            pong = subprocess.run(f"ping -c 3 {ping}", stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL, shell=True)
             pong.check_returncode()
 
         except subprocess.CalledProcessError:
-            logger.warning("Conexão à LAN perdida.")
-
-    def check_wan_connection(self):
-        if self.os == "Linux":
-            ping = f"ping -c 3 {self.wan_ip}"
-        if self.os == "Windows":
-            ping = f"ping -n 3 {self.wan_ip}"
-
-        try:
-            import subprocess
-            pong = subprocess.run(ping, stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL)
-            pong.check_returncode()
-
-        except subprocess.CalledProcessError.CalledProcessError:
-            logger.warning("Conexão à WAN perdida.")
+            logger.warning("Conexão perdida.")
 
 
 admins_id = [292750276048191488]
-system = System("Windows", "192.168.0.190")
+system = System("192.168.1.254")
 logger = system.setup_logging()
