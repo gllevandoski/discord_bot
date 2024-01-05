@@ -16,16 +16,14 @@ class System:
 
     async def check_connection(self):
         from threading import Thread
-
         Thread(target=self.test_connection, args=(self.wan_ip,), daemon=True).start()
         Thread(target=self.test_connection, args=(self.lan_ip,), daemon=True).start()
 
-    def test_connection(self, ping):
+    def test_connection(self, address, count: int = 3):
         try:
             import subprocess
-            pong = subprocess.run(f"ping -c 3 {ping}", stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL, shell=True)
+            pong = subprocess.run(f"ping -c {count} {address}", stdout=subprocess.DEVNULL, stdin=subprocess.DEVNULL, shell=True)
             pong.check_returncode()
-
         except subprocess.CalledProcessError:
             logger.warning("Conexão perdida.")
 

@@ -6,7 +6,7 @@ if __name__ == "__main__":
 
     intents = discord.Intents.default()
     intents.message_content = True
-    bot = commands.Bot(command_prefix="mc!", intents=intents, help_command=None)
+    bot = commands.Bot(command_prefix="/", intents=intents, help_command=None)
     minecraft_server = Minecraft("grupocycle.ddns.net", 25566)
 
     @bot.event
