@@ -4,6 +4,7 @@ from system import logger
 from server import Minecraft
 from dotenv import load_dotenv
 from os import getenv
+from requests import get, post
 
 
 load_dotenv()
@@ -39,20 +40,21 @@ async def server(context, *args):
     try:
         match args[0]:
             case "start":
-                received_arguments = args[1:]
-                validated_arguments = dict()
-                valid_arguments = ["--game", "--config", "--password", "--public"]
-
-                for argument in received_arguments:
-                    if argument in valid_arguments:
-                        validated_arguments[argument] = received_arguments[received_arguments.index(argument) + 1]
-  
-                await context.send(validated_arguments)
-
-            case "restart":
-                pass
+                response = post(getenv('START_URL'), headers={"x-api-key": getenv('API_KEY')})
+                if response.status_code == 200:
+                    await context.send("Iniciando o servidor")
+                else:
+                    await context.send("Não foi possível iniciar o servidor. Tente novamente mais tarde. Erro:" + str(response.status_code))
 
             case "stop":
+                response = post(getenv('STOP_URL'), headers={"x-api-key": getenv('API_KEY')})
+                
+                if response.status_code == 200:
+                    await context.send("Iniciando o servidor")
+                else:
+                    await context.send("Não foi possível iniciar o servidor. Tente novamente mais tarde. Erro:" + str(response.status_code))
+
+            case "restart":
                 pass
 
             case "list":
