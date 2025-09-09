@@ -1,6 +1,6 @@
 import discord
-from discord.ext import commands, tasks
-from system import system, logger
+from discord.ext import commands
+from system import logger
 from server import Minecraft
 from dotenv import load_dotenv
 from os import getenv
