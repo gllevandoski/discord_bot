@@ -1,6 +1,0 @@
-WARNING:discord.client:PyNaCl is not installed, voice will NOT be supported
-DEBUG:discord.client:on_ready has successfully been registered as an event
-DEBUG:asyncio:Using selector: EpollSelector
-INFO:discord.client:logging in using static token
-INFO:discord.gateway:Shard ID None has connected to Gateway (Session ID: dabc4d178b8c90ca015de998402a1306).
-INFO:discord:Logado como Minecraft Bot
