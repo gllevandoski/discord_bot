@@ -57,6 +57,14 @@ class Minecraft(Server):
             logger.error("Aconteceu algo de errado, contate o admin.\n Erro: {}".format(E))
             raise
 
+    async def get_player_count(self):
+        from mcstatus import JavaServer
+
+        server = await JavaServer.async_lookup(f"{self.address}:{self.port}")
+        server_info = await server.async_status()
+        self.server = server_info
+        
+        return self.server.players.sample
 
     async def info(self):
         await self.server_info()
